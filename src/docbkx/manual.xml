@@ -2608,6 +2608,14 @@ java.sql.SQLException: ORA-00942: table or view does not exist
 
     <chapter id="settings">
       <title>Parameter Reference</title>
+      <sect1 id="setting_appInfo">
+        <title>appInfo</title>
+        <para>
+          If class name is provided, will use its instance to provide
+          application information at start up, otherwise will use
+          default SqlLine implementation.
+        </para>
+      </sect1>
       <sect1 id="setting_autocommit">
         <title>autocommit</title>
         <para>
@@ -2742,7 +2750,7 @@ java.sql.SQLException: ORA-00942: table or view does not exist
           current width, falls back to 80.
         </para>
       </sect1>
-      <sect1 id="setting_numberformat">
+      <sect1 id="setting_nullvalue">
         <title>nullvalue</title>
         <para>
           The value which will be used instead of null values. Setting

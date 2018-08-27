@@ -320,6 +320,9 @@ public class SqlLineArgsTest {
         + "\n"
         + "Variable        Value      Description\n"
         + "=============== ========== ================================\n"
+        + "appInfo         class name Set class name which\n"
+        + "                           provides application info\n"
+        + "                           transaction commit\n"
         + "autoCommit      true/false Enable/disable automatic\n"
         + "                           transaction commit\n"
         + "autoSave        true/false Automatically save preferences\n";
@@ -701,6 +704,21 @@ public class SqlLineArgsTest {
     assertThat(countUsage(pair.output), equalTo(1));
   }
 
+  @Test
+  public void testAppInfo() throws Throwable {
+    Pair pair = run();
+    assertThat(pair.status, equalTo(SqlLine.Status.OK));
+    assertThat(pair.output, containsString(AppInfo.DEFAULT_MESSAGE));
+
+    pair = run("--appInfo=invalid_class");
+    assertThat(pair.status, equalTo(SqlLine.Status.OK));
+    assertThat(pair.output, containsString(AppInfo.DEFAULT_MESSAGE));
+
+    pair = run("--appInfo=sqlline.SqlLineArgsTest$CustomAppInfo");
+    assertThat(pair.status, equalTo(SqlLine.Status.OK));
+    assertThat(pair.output, containsString(CustomAppInfo.MESSAGE));
+  }
+
   /** Result of executing sqlline: status code and output. */
   static class Pair {
     final SqlLine.Status status;
@@ -1041,6 +1059,18 @@ public class SqlLineArgsTest {
       description.appendText("regular expression ").appendText(pattern);
     }
   }
+
+  /**
+   * Is used to test custom app info message.
+   */
+  public static class CustomAppInfo implements AppInfo {
+    public static final String MESSAGE = "my custom message";
+    @Override
+    public String getInfoMessage() throws Exception {
+      return MESSAGE;
+    }
+  }
+
 }
 
 // End SqlLineArgsTest.java

@@ -197,26 +197,14 @@ public class SqlLine {
   }
 
   String getApplicationTitle() {
-    InputStream inputStream =
-        getClass().getResourceAsStream(
-            "/META-INF/maven/sqlline/sqlline/pom.properties");
-    Properties properties = new Properties();
-    properties.put("artifactId", "sqlline");
-    properties.put("version", "???");
-    if (inputStream != null) {
-      // If not running from a .jar, pom.properties will not exist, and
-      // inputStream is null.
-      try {
-        properties.load(inputStream);
-      } catch (IOException e) {
-        handleException(e);
-      }
+    try {
+      AppInfo appInfo = (AppInfo) Class.forName(opts.getAppInfo())
+          .newInstance();
+      return appInfo.getInfoMessage();
+    } catch (Exception e) {
+      handleException(e);
+      return AppInfo.DEFAULT_MESSAGE;
     }
-
-    return loc(
-        "app-introduction",
-        properties.getProperty("artifactId"),
-        properties.getProperty("version"));
   }
 
   static String getApplicationContactInformation() {

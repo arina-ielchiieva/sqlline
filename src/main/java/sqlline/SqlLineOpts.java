@@ -67,6 +67,7 @@ class SqlLineOpts implements Completer {
   private String historyFile =
       new File(saveDir(), "history").getAbsolutePath();
   private String runFile;
+  private String appInfo = "sqlline.AppInfo$SqlLineAppInfo";
 
   public SqlLineOpts(SqlLine sqlLine) {
     this.sqlLine = sqlLine;
@@ -525,6 +526,12 @@ class SqlLineOpts implements Completer {
   public String getRun() {
     return this.runFile;
   }
+
+  public void setAppInfo(String appInfo) {
+    this.appInfo = appInfo;
+  }
+
+  public String getAppInfo() { return appInfo; }
 
   private String getValidDateTimePatternOrThrow(String dateTimePattern) {
     if (DEFAULT.equals(dateTimePattern)) {

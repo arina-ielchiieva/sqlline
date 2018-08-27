@@ -92,6 +92,7 @@ tables — List all the tables in the database
 verbose
 verbose — Enable verbose output
 Parameter Reference
+appInfo
 autocommit
 autosave
 color
@@ -212,6 +213,7 @@ tables — List all the tables in the database
 verbose
 verbose — Enable verbose output
 Parameter Reference
+appInfo
 autocommit
 autosave
 color
@@ -1938,6 +1940,10 @@ timeformat
 timestampformat
 trimscripts
 verbose
+appInfo
+
+Sets class name which provides application information at start up.
+
 autocommit
 
 If true, then new connections will have autocommit set, otherwise, transactions will need to be explicitely committed or rolled back. Defaults to true. To change the autocommit status for a connection that is already open and active, use the autocommit command instead.
