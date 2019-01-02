@@ -152,6 +152,12 @@ public class PromptTest {
     assertThat(Prompt.getRightPrompt(sqlLine).toAnsi(), is("//H20"));
     sqlLine.getDatabaseConnection().close();
   }
+
+  @Test
+  public void testPromptWithSchema() {
+    // %S
+  }
+
 }
 
 // End PromptTest.java
