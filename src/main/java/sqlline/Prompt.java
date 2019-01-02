@@ -142,6 +142,14 @@ class Prompt {
                 promptStringBuilder.append(databaseConnection.getUrl());
               }
               break;
+            case 'S':
+              if (databaseConnection != null) {
+                String schema = databaseConnection.getCurrentSchema();
+                if (schema != null) {
+                  promptStringBuilder.append(" (").append(schema).append(")");
+                }
+              }
+              break;
             case '[':
               int closeBracketIndex = prompt.indexOf("%]", i + 2);
               if (closeBracketIndex > 0) {

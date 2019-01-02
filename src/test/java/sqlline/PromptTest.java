@@ -152,6 +152,29 @@ public class PromptTest {
     assertThat(Prompt.getRightPrompt(sqlLine).toAnsi(), is("//H20"));
     sqlLine.getDatabaseConnection().close();
   }
+
+  @Test
+  public void testPromptWithSchema() {
+    SqlLine sqlLine = new SqlLine();
+    sqlLine.getOpts().set(BuiltInProperty.PROMPT, "%u%S>");
+    assertThat(Prompt.getPrompt(sqlLine).toAnsi(), is(">"));
+
+    sqlLine.runCommands(
+        Collections.singletonList("!connect "
+          + SqlLineArgsTest.ConnectionSpec.H2.url + " "
+          + SqlLineArgsTest.ConnectionSpec.H2.username + " \"\""),
+        new DispatchCallback());
+
+    assertThat(Prompt.getPrompt(sqlLine).toAnsi(),
+        is("jdbc:h2:mem: (PUBLIC)>"));
+
+    sqlLine.runCommands(Collections.singletonList("use information_schema"),
+        new DispatchCallback());
+
+    assertThat(Prompt.getPrompt(sqlLine).toAnsi(),
+        is("jdbc:h2:mem: (INFORMATION_SCHEMA)>"));
+  }
+
 }
 
 // End PromptTest.java
