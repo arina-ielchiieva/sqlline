@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CodePointCharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;
@@ -173,6 +176,32 @@ public class PromptTest {
 
     assertThat(Prompt.getPrompt(sqlLine).toAnsi(),
         is("jdbc:h2:mem: (INFORMATION_SCHEMA)>"));
+  }
+
+  @Test
+  public void t() {
+    SqlLine sqlLine = new SqlLine();
+    sqlLine.runCommands(
+      Collections.singletonList("!connect "
+        + SqlLineArgsTest.ConnectionSpec.H2.url + " "
+        + SqlLineArgsTest.ConnectionSpec.H2.username + " \"\""),
+      new DispatchCallback());
+
+    String s = " dRiLL %S %n %:verbose:>";
+    //String s = "drill %S%n%:verbose:";
+    //String s = "drill %S %n %:verbose:";
+    //String s = "drill";
+    //String s = "%:verbose:";
+    System.out.println(s);
+    CodePointCharStream stream = CharStreams.fromString(s);
+
+    PromptLexer lexer = new PromptLexer(stream);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    PromptParser parser = new PromptParser(tokens);
+    PromptWorker.PromptVisitor visitor = new PromptWorker.PromptVisitor(sqlLine);
+    AttributedString attributedString = visitor.visitPrompt(parser.prompt());
+    System.out.println(attributedString.toAnsi());
+
   }
 
 }

@@ -44,6 +44,7 @@
     <maven-javadoc-plugin.additionalOptions>-html5</maven-javadoc-plugin.additionalOptions>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <scott-data-hsqldb.version>0.1</scott-data-hsqldb.version>
+    <antlr.version>4.7.1</antlr.version>
   </properties>
 
   <licenses>
@@ -310,6 +311,22 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>${antlr.version}</version>
+        <configuration>
+          <listener>true</listener>
+          <visitor>true</visitor>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <pluginManagement>
@@ -350,6 +367,11 @@
       <groupId>org.jline</groupId>
       <artifactId>jline-builtins</artifactId>
       <version>${jline.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4-runtime</artifactId>
+      <version>${antlr.version}</version>
     </dependency>
     <dependency>
       <!-- JMockit needs to be on class path before JUnit. -->
